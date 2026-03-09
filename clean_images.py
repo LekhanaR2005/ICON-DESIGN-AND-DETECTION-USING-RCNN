@@ -7,21 +7,22 @@ output_folder = "dataset_clean"
 
 for root, dirs, files in os.walk(input_folder):
 
+    # create same folder structure in output
+    relative_path = os.path.relpath(root, input_folder)
+    output_path = os.path.join(output_folder, relative_path)
+
+    os.makedirs(output_path, exist_ok=True)
+
     for file in files:
 
         input_path = os.path.join(root, file)
 
-        # get class folder name
-        class_name = os.path.basename(root)
-
-        # create class folder in dataset_clean
-        class_output = os.path.join(output_folder, class_name)
-        os.makedirs(class_output, exist_ok=True)
-
         try:
+            # verify image
             img = Image.open(input_path)
             img.verify()
 
+            # read using opencv
             img = cv2.imread(input_path)
 
             if img is None:
@@ -33,11 +34,11 @@ for root, dirs, files in os.walk(input_folder):
             # convert BGR → RGB
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-            output_path = os.path.join(class_output, file)
+            save_path = os.path.join(output_path, file)
 
-            cv2.imwrite(output_path, img)
+            cv2.imwrite(save_path, img)
 
-            print("Processed:", class_name, "/", file)
+            print("Processed:", save_path)
 
         except:
-            print("Skipped:", file)
+            print("Skipped:", input_path)
