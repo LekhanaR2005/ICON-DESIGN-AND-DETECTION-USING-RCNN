@@ -5,7 +5,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 from cnn_backbone import FeatureExtractor
-from shared_features.feature_interface import FeatureInterface
+from feature_interface import FeatureInterface
 # -----------------------------
 # Dataset Class
 # -----------------------------
