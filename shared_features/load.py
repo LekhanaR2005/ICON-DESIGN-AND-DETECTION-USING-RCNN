@@ -5,7 +5,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 from cnn_backbone import FeatureExtractor
-
+from shared_features.feature_interface import FeatureInterface
 # -----------------------------
 # Dataset Class
 # -----------------------------
@@ -90,13 +90,17 @@ loader = DataLoader(dataset, batch_size=32, shuffle=True)
 # Test DataLoader
 # -----------------------------
 
-model = FeatureExtractor()
+backbone = FeatureExtractor()
+feature_interface = FeatureInterface()
 
 for images, labels in loader:
 
-    features = model(images)
+    feature_maps = backbone(images)
+
+    shared_features = feature_interface(feature_maps)
 
     print("Input shape:", images.shape)
-    print("Feature map shape:", features.shape)
+    print("Backbone feature map:", feature_maps.shape)
+    print("Shared features:", shared_features.shape)
 
     break
