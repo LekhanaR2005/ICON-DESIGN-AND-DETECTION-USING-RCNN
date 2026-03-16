@@ -90,9 +90,13 @@ loader = DataLoader(dataset, batch_size=32, shuffle=True)
 # Test DataLoader
 # -----------------------------
 
+model = FeatureExtractor()
+
 for images, labels in loader:
 
-    print("Image batch shape:", images.shape)
-    print("Labels:", labels)
+    features = model(images)
+
+    print("Input shape:", images.shape)
+    print("Feature map shape:", features.shape)
 
     break
